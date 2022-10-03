@@ -34,13 +34,14 @@ namespace GrenadeTeamDamageFix
                 if (GrenadeCache.TryGetValue(ev.Grenade.Info.Serial, out Side side))
                 {
                     GrenadeCache.Remove(ev.Grenade.Info.Serial);
-                    for (int i = ev.TargetsToAffect.Count - 1; i >= 0; i--)
-                    {
-                        if (ev.TargetsToAffect[i].Role.Side == side)
+                    if (ev.Thrower == Server.Host || ev.Thrower == null)
+                        for (int i = ev.TargetsToAffect.Count - 1; i >= 0; i--)
                         {
-                            ev.TargetsToAffect.RemoveAt(i);
+                            if (ev.TargetsToAffect[i].Role.Side == side)
+                            {
+                                ev.TargetsToAffect.RemoveAt(i);
+                            }
                         }
-                    }
                 }
             }
         }
